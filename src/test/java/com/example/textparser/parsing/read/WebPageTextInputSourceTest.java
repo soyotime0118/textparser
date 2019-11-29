@@ -17,7 +17,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 
 @ExtendWith(MockitoExtension.class)
-
 @Log4j2
 class WebPageTextInputSourceTest {
 
