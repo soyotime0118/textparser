@@ -5,10 +5,12 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Predicate;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 import static java.util.stream.Collectors.joining;
+import static java.util.stream.Collectors.partitioningBy;
 
 @Service
 public class TextFilterSortProcessor implements TextProcessService {
@@ -43,6 +45,30 @@ public class TextFilterSortProcessor implements TextProcessService {
                 .flatMap(character -> characterListMap.get(character).stream()
                         .map(character1 -> Character.toString(character1)))
                 .collect(joining());
-        return onlySort;
+        return crossOutStringProcess(onlySort);
     }
+
+    private String crossOutStringProcess(String content){
+        Map<Boolean, List<Character>> result = content.chars()
+                .mapToObj(ch -> (char) ch)
+                .collect(partitioningBy((Predicate<Character>) Character::isAlphabetic));
+
+        List<Character> wordList = result.get(true);
+        List<Character> digitList = result.get(false);
+
+        int minLength = Math.min(wordList.size(), digitList.size());
+
+        StringBuilder resultStr = new StringBuilder();
+        for (int i = 0; i < minLength; i++) {
+            resultStr.append(wordList.get(i).toString()).append(digitList.get(i).toString());
+        }
+        if(wordList.size()>digitList.size()){
+            resultStr.append(wordList.subList(minLength, wordList.size()).stream().map(String::valueOf).collect(joining()));
+        }else{
+            resultStr.append(digitList.subList(minLength, digitList.size()).stream().map(String::valueOf).collect(joining()));
+        }
+        return resultStr.toString();
+
+    }
+
 }

@@ -32,6 +32,6 @@ class TextSortTest {
     void sort_ascend_2() {
         String result =textFilterSortProcessor.sortProcess("0DdaCBA9");
         log.info(result);
-        assertThat(result).isEqualTo("09AaBCDd");
+        assertThat(result).isEqualTo("A0a9BCDd");
     }
 }
