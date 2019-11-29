@@ -16,22 +16,36 @@ class TextSortTest {
 
     @Test
     void sort_ascend() {
-        String result =textFilterSortProcessor.sortProcess("DCBA");
+        String result = textFilterSortProcessor.sortProcess("DCBA");
         log.info(result);
         assertThat(result).isEqualTo("ABCD");
     }
 
     @Test
     void sort_ascend_1() {
-        String result =textFilterSortProcessor.sortProcess("DdCBA");
+        String result = textFilterSortProcessor.sortProcess("DdCBA");
         log.info(result);
         assertThat(result).isEqualTo("ABCDd");
     }
 
     @Test
     void sort_ascend_2() {
-        String result =textFilterSortProcessor.sortProcess("0DdaCBA9");
+        String result = textFilterSortProcessor.sortProcess("0DdaCBA9");
         log.info(result);
         assertThat(result).isEqualTo("A0a9BCDd");
+    }
+
+    @Test
+    void sort_ascend_3() {
+        String result = textFilterSortProcessor.sortProcess("0000");
+        log.info(result);
+        assertThat(result).isEqualTo("0000");
+    }
+
+    @Test
+    void sort_ascend_4() {
+        String result =textFilterSortProcessor.sortProcess("0000Aa");
+        log.info(result);
+        assertThat(result).isEqualTo("A0a000");
     }
 }
