@@ -9,6 +9,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import javax.validation.Valid;
 import java.util.Map;
 
 @RequiredArgsConstructor
@@ -18,7 +19,7 @@ public class IndexController {
     private final TextParsingService textParsingService;
 
     @PostMapping
-    public String printText(TextParsingDto textParsingDto, Model model) {
+    public String printText(@Valid TextParsingDto textParsingDto, Model model) {
         String url = textParsingDto.getUrl();
         boolean excludeHtmlTag = textParsingDto.isExcludeHtmlTag();
         int divisorNumber = textParsingDto.getDivisorNumber();
@@ -31,7 +32,8 @@ public class IndexController {
     }
 
     @GetMapping
-    public String index() {
+    public String index(Model model) {
+        model.addAttribute("textParsingDto", new TextParsingDto());
         return "index";
     }
 

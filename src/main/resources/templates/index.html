@@ -1,14 +1,14 @@
 <!DOCTYPE html >
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
 </head>
 <body>
-<form action="" method="post">
+<form action="" th:object="${textParsingDto}" method="post">
     <label>
         URL :
-        <input type="text" name="url">
+        <input type="text" th:field="*{url}">
     </label>
     <br>
     <label for="type">
@@ -21,12 +21,14 @@
     <br>
     <label>
         출력묶음 단위 :
-        <input type="text" name="divisorNumber">
+        <input type="text" th:field="*{divisorNumber}">
     </label>
     <button type="submit">출력</button>
 </form>
 몫 :
+<div style="word-break: break-all" th:if="${calcResponse!=null}" th:text="${calcResponse.quotientString}"></div>
 <br>
 나머지 :
+<div style="word-break: break-all" th:if="${calcResponse!=null}" th:text="${calcResponse.remainderString}"></div>
 </body>
 </html>
