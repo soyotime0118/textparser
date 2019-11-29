@@ -17,8 +17,9 @@ public class TextModularProcessor implements TextAfterProcessService {
         int remainder = contentLength % number;
 
         Map<String, String> result = new HashMap<>();
-        result.put("quotient", content.substring(0, contentLength - remainder));
-        result.put("remainder", content.substring(contentLength - remainder));
+        int endIndex = contentLength - remainder;
+        result.put("quotient", content.substring(0, endIndex));
+        result.put("remainder", content.substring(endIndex));
 
         return result;
     }

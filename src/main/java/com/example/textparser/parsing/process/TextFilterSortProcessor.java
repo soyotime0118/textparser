@@ -1,5 +1,6 @@
 package com.example.textparser.parsing.process;
 
+import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -12,14 +13,19 @@ import java.util.stream.Collectors;
 import static java.util.stream.Collectors.joining;
 import static java.util.stream.Collectors.partitioningBy;
 
+@Log4j2
 @Service
 public class TextFilterSortProcessor implements TextProcessService {
     @Override
     public String filterProcess(String content) {
         Pattern wordDigitPattern = Pattern.compile("[^A-Za-z0-9]*");
-        return content.replaceAll(wordDigitPattern.pattern(), "").replaceAll(Pattern.compile("\\s+").pattern(), "");
+        Pattern spaceRegPattern = Pattern.compile("\\s+");
+        return content.replaceAll(wordDigitPattern.pattern(), "").replaceAll(spaceRegPattern.pattern(), "");
     }
 
+    /**
+     * 문자열 정렬
+     */
     @Override
     public String sortProcess(String content) {
         Map<Character, List<Character>> characterListMap = content.chars()
@@ -42,13 +48,15 @@ public class TextFilterSortProcessor implements TextProcessService {
         String onlySort = characterListMap.keySet()
                 .stream()
                 .sorted()
-                .flatMap(character -> characterListMap.get(character).stream()
-                        .map(character1 -> Character.toString(character1)))
+                .flatMap(character -> characterListMap.get(character).stream().map(character1 -> Character.toString(character1)))
                 .collect(joining());
         return crossOutStringProcess(onlySort);
     }
 
-    private String crossOutStringProcess(String content){
+    /**
+     * 문자, 숫자가 교대로 나오도록 재정렬
+     */
+    private String crossOutStringProcess(String content) {
         Map<Boolean, List<Character>> result = content.chars()
                 .mapToObj(ch -> (char) ch)
                 .collect(partitioningBy((Predicate<Character>) Character::isAlphabetic));
@@ -56,15 +64,17 @@ public class TextFilterSortProcessor implements TextProcessService {
         List<Character> wordList = result.get(true);
         List<Character> digitList = result.get(false);
 
-        int minLength = Math.min(wordList.size(), digitList.size());
+        int wordSize = wordList.size();
+        int digitSize = digitList.size();
+        int minLength = Math.min(wordSize, digitSize);
 
         StringBuilder resultStr = new StringBuilder();
         for (int i = 0; i < minLength; i++) {
             resultStr.append(wordList.get(i).toString()).append(digitList.get(i).toString());
         }
-        if(wordList.size()>digitList.size()){
+        if (wordList.size() > digitList.size()) {
             resultStr.append(wordList.subList(minLength, wordList.size()).stream().map(String::valueOf).collect(joining()));
-        }else{
+        } else {
             resultStr.append(digitList.subList(minLength, digitList.size()).stream().map(String::valueOf).collect(joining()));
         }
         return resultStr.toString();

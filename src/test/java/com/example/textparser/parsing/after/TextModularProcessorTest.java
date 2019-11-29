@@ -56,4 +56,14 @@ class TextModularProcessorTest {
         assertThat(result.get("remainder")).isEqualTo("");
         log.info(result);
     }
+
+    @Test
+    void modular_calc_string_5() {
+        String input = "";
+        int number =  1;
+        Map<String,String> result =textModularProcessor.afterProcess(input,number);
+        assertThat(result.get("quotient")).isEqualTo("");
+        assertThat(result.get("remainder")).isEqualTo("");
+        log.info(result);
+    }
 }

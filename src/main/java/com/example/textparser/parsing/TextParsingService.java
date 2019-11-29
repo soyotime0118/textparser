@@ -17,11 +17,11 @@ public class TextParsingService {
     private final TextProcessService textProcessService;
     private final TextAfterProcessService textAfterProcessService;
 
-    public Map<String,String> parsingText(String url, boolean excludeHtmlTag, int divisorNumber){
-        String htmlResponse = textInputSource.getText(excludeHtmlTag,url);
+    public Map<String, String> parsingText(String url, boolean excludeHtmlTag, int divisorNumber) {
+        String htmlResponse = textInputSource.getText(excludeHtmlTag, url);
         String filterResponse = textProcessService.filterProcess(htmlResponse);
         String sortResponse = textProcessService.sortProcess(filterResponse);
 
-        return textAfterProcessService.afterProcess(sortResponse,divisorNumber);
+        return textAfterProcessService.afterProcess(sortResponse, divisorNumber);
     }
 }
