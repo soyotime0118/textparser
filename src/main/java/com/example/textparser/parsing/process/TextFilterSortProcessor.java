@@ -74,9 +74,9 @@ public class TextFilterSortProcessor implements TextProcessService {
         int minLength = Math.min(wordSize, digitSize);
 
         StringBuilder resultStr = new StringBuilder();
-        for (int i = 0; i < minLength; i++) {
-            resultStr.append(TextUtil.function1(wordList.get(i), digitList.get(i), f1));
-        }
+
+        resultStr.append(TextUtil.function1(wordList, digitList, f1));
+
         if (wordList.size() > digitList.size()) {
             resultStr.append(wordList.stream().map(String::valueOf).collect(joining()).substring(minLength));
         } else {
