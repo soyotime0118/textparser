@@ -1,5 +1,7 @@
 package com.example.textparser.parsing.process;
 
+import com.example.textparser.parsing.function.TextSortProcessor;
+import com.example.textparser.parsing.util.TextUtil;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
 
@@ -64,21 +66,23 @@ public class TextFilterSortProcessor implements TextProcessService {
         List<Character> wordList = result.get(true);
         List<Character> digitList = result.get(false);
 
+        TextSortProcessor f1 = (character, character1) -> character + String.valueOf(character1);
+//        BinaryOperator<String> f2 = (s, s2) -> s + s2;
+
         int wordSize = wordList.size();
         int digitSize = digitList.size();
         int minLength = Math.min(wordSize, digitSize);
 
         StringBuilder resultStr = new StringBuilder();
         for (int i = 0; i < minLength; i++) {
-            resultStr.append(wordList.get(i).toString()).append(digitList.get(i).toString());
+            resultStr.append(TextUtil.function1(wordList.get(i), digitList.get(i), f1));
         }
         if (wordList.size() > digitList.size()) {
-            resultStr.append(wordList.subList(minLength, wordList.size()).stream().map(String::valueOf).collect(joining()));
+            resultStr.append(wordList.stream().map(String::valueOf).collect(joining()).substring(minLength));
         } else {
-            resultStr.append(digitList.subList(minLength, digitList.size()).stream().map(String::valueOf).collect(joining()));
+            resultStr.append(digitList.stream().map(String::valueOf).collect(joining()).substring(minLength));
         }
         return resultStr.toString();
-
     }
 
 }
