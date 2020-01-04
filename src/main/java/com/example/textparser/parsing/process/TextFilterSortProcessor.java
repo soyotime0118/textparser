@@ -67,22 +67,19 @@ public class TextFilterSortProcessor implements TextProcessService {
         List<Character> digitList = result.get(false);
 
         TextSortProcessor f1 = (character, character1) -> character + String.valueOf(character1);
-//        BinaryOperator<String> f2 = (s, s2) -> s + s2;
 
         int wordSize = wordList.size();
         int digitSize = digitList.size();
         int minLength = Math.min(wordSize, digitSize);
 
-        StringBuilder resultStr = new StringBuilder();
-
-        resultStr.append(TextUtil.function1(wordList, digitList, f1));
-
+        String result1 = TextUtil.function1(wordList, digitList, f1);
+        String result2;
         if (wordList.size() > digitList.size()) {
-            resultStr.append(wordList.stream().map(String::valueOf).collect(joining()).substring(minLength));
+            result2 = TextUtil.function2(wordList, minLength);
         } else {
-            resultStr.append(digitList.stream().map(String::valueOf).collect(joining()).substring(minLength));
+            result2 = TextUtil.function2(digitList, minLength);
         }
-        return resultStr.toString();
+        return result1 + result2;
     }
 
 }
