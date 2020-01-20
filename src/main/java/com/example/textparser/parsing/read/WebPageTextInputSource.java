@@ -21,6 +21,11 @@ public class WebPageTextInputSource implements TextInputSource{
         return html;
     }
 
+    @Override
+    public String getText(boolean excludeHtmlTag, String[] resources) {
+        return null;
+    }
+
     private String removeHtmlTag(String htmlText) {
         Pattern htmlTagPattern = Pattern.compile("(<([^>]+)>)");
         return htmlText.replaceAll(htmlTagPattern.pattern(),"").replaceAll(Pattern.compile("\\s+").pattern(),"");
