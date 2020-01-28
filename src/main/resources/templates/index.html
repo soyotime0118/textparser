@@ -7,8 +7,23 @@
 <body>
 <form action="" th:object="${textParsingDto}" method="post">
     <label>
-        URL :
-        <input type="text" th:field="*{url}">
+        URL1 :
+        <input type="text" th:field="*{url[0]}">
+    </label>
+    <br>
+    <label>
+        URL2 :
+        <input type="text" th:field="*{url[1]}">
+    </label>
+    <br>
+    <label>
+        URL3 :
+        <input type="text" th:field="*{url[2]}">
+    </label>
+    <br>
+    <label>
+        URL4 :
+        <input type="text" th:field="*{url[3]}">
     </label>
     <br>
     <label for="type">
